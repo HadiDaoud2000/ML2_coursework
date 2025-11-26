@@ -1,0 +1,20 @@
+core-bowl-a593e8863200fdb0664b3b9b23ddfcbc.npy: Average energy = 15.7592, Count = 15
+
+ddg-gd_banana_poisson_002.npy: Average energy = 16.3913, Count = 34
+
+mujoco-Black_Decker_CM2035B_12Cup_Thermal_Coffeemaker.npy: Average energy = 13.7020, Count = 39
+
+sem-Hammer-405f308492a6f40d2c3380317c2cc450.npy: Average energy = 10.5735, Count = 62
+
+ddg-gd_drill_poisson_000.npy: Average energy = 10.4027, Count = 33
+
+sem-Camera-7bff4fd4dc53de7496dece3f86cb5dd5.npy: Average energy = 12.9162, Count = 46
+
+mujoco-Reebok_GL_6000.npy: Average energy = 12.2684, Count = 39
+
+sem-Hammer-369593e48bdb2208419a349e9c699f76.npy: Average energy = 11.1732, Count = 30
+
+core-pistol-4648980f23149150edfe35c9179614ca.npy: Average energy = 10.7556, Count = 72
+
+ddg-gd_dumpbell_poisson_000.npy: Average energy = 13.0156, Count = 9
+

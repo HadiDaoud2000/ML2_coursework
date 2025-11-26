@@ -1,0 +1,12 @@
+{
+    "core-pistol-4648980f23149150edfe35c9179614ca": 0.15,
+    "core-bowl-a593e8863200fdb0664b3b9b23ddfcbc": 0.1,
+    "ddg-gd_banana_poisson_002": 0.1,
+    "ddg-gd_drill_poisson_000": 0.18,
+    "ddg-gd_dumpbell_poisson_000": 0.2,
+    "mujoco-Black_Decker_CM2035B_12Cup_Thermal_Coffeemaker": 0.15,
+    "mujoco-Reebok_GL_6000": 0.15,
+    "sem-Camera-7bff4fd4dc53de7496dece3f86cb5dd5": 0.1,
+    "sem-Hammer-369593e48bdb2208419a349e9c699f76": 0.2,
+    "sem-Hammer-405f308492a6f40d2c3380317c2cc450": 0.2
+}
