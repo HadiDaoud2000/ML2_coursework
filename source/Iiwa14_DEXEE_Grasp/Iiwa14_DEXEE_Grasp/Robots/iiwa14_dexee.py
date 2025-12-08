@@ -26,8 +26,9 @@ INIT_Q_IIWA = np.array([ 0.3228,  0.0685, -0.3784, -1.0638, -0.1891,  1.1131,  0
 
 INIT_Q_IIWA = INIT_Q_IIWA.tolist()
 
-RELATIVE_PATH2 = "../../source/Iiwa14_DEXEE_Grasp/Data/core-bowl-a593e8863200fdb0664b3b9b23ddfcbc/coacd/core-bowl-a593e8863200fdb0664b3b9b23ddfcbc.npy"
+# RELATIVE_PATH2 = "../../source/Iiwa14_DEXEE_Grasp/Data/core-bowl-a593e8863200fdb0664b3b9b23ddfcbc/coacd/core-bowl-a593e8863200fdb0664b3b9b23ddfcbc.npy"
 # RELATIVE_PATH2 = "../../source/Iiwa14_DEXEE_Grasp/Data/ddg-gd_drill_poisson_000/coacd/ddg-gd_drill_poisson_000.npy"
+RELATIVE_PATH2 = "../../source/Iiwa14_DEXEE_Grasp/Data/sem-Camera-7bff4fd4dc53de7496dece3f86cb5dd5/coacd/sem-Camera-7bff4fd4dc53de7496dece3f86cb5dd5.npy"
 
 ABSOLUTE_PATH2 = Path(RELATIVE_PATH2).resolve().as_posix()
 
@@ -35,7 +36,7 @@ data = np.load(
     ABSOLUTE_PATH2, 
     allow_pickle=True
 )
-grasp = data[0]  
+grasp = data[8]  
 final_pose = grasp["qpos"]
 print(final_pose)
 IIWA14_DEXEE_CFG = ArticulationCfg(

@@ -68,18 +68,18 @@ class Iiwa14DexeeGraspSceneCfg(InteractiveSceneCfg):
     )
 
     # Contact sensors
-    F0_J0_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F0_J0_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= True)
-    F0_J1_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F0_J1_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= True)
-    F0_J2_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F0_J2_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= True)
-    F0_J3_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F0_J3_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= True)
-    F1_J0_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F1_J0_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= True)
-    F1_J1_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F1_J1_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= True)
-    F1_J2_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F1_J2_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= True)
-    F1_J3_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F1_J3_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= True)
-    F2_J0_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F2_J0_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= True)
-    F2_J1_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F2_J1_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= True)
-    F2_J2_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F2_J2_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= True)
-    F2_J3_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F2_J3_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= True)
+    F0_J0_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F0_J0_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= False)
+    F0_J1_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F0_J1_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= False)
+    F0_J2_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F0_J2_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= False)
+    F0_J3_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F0_J3_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= False)
+    F1_J0_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F1_J0_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= False)
+    F1_J1_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F1_J1_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= False)
+    F1_J2_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F1_J2_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= False)
+    F1_J3_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F1_J3_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= False)
+    F2_J0_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F2_J0_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= False)
+    F2_J1_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F2_J1_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= False)
+    F2_J2_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F2_J2_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= False)
+    F2_J3_jointbody = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/shadow_dexee/converted_robot/F2_J3_jointbody", filter_prim_paths_expr=["{ENV_REGEX_NS}/Object_*"],update_period=0.0, history_length=6, debug_vis= False)
 
 ##
 # MDP settings
@@ -114,7 +114,8 @@ class ObservationsCfg:
         ee_quat_RRF = ObsTerm(func= mdp.quat_in_robot_frame, noise=Unoise(n_min=-0.01, n_max=0.01))
         actions = ObsTerm(func=mdp.last_action)
         object_pose = ObsTerm(func = mdp.initial_object_pose_robot_root_frame, noise=Unoise(n_min=-0.01, n_max=0.01))
-
+        # object_pose = ObsTerm(func = mdp.initial_EE_pose_robot_root_frame, noise=Unoise(n_min=-0.01, n_max=0.01))
+        # initial_distan = ObsTerm(func = mdp.initial_distance)
         # test = ObsTerm(func = mdp.get_grasp_config)
         # test2 = ObsTerm(func = mdp.desired_config_robot_frame)
         # y= ObsTerm(func=mdp.object_pose_robot_root_frame)
@@ -138,7 +139,7 @@ class EventCfg:
         func=mdp.reset_joints_by_scale,
         mode="reset",
         params={
-            "position_range": (0.5, 1.5),
+            "position_range": (1.0, 1.0),
             "velocity_range": (0.0, 0.0),
         },
     )
@@ -147,7 +148,7 @@ class EventCfg:
         func=mdp.reset_root_state_uniform,
         mode="reset",
         params={
-            "pose_range": {"x": (-0.15, 0.15), "y": (-0.25, 0.25), "z": (0.0, 0.0)},
+            "pose_range": {"x": (-0.1, 0.1), "y": (-0.1, 0.1), "z": (0.0, 0.0)},
             "velocity_range": {},
             "asset_cfg": SceneEntityCfg("object", body_names="Object"),
         },
@@ -157,25 +158,29 @@ class EventCfg:
 @configclass
 class RewardsCfg:
 
-    position_tracking = RewTerm (func=mdp.position_tracking, weight=-0.2)
-    position_enhance = RewTerm (func=mdp.position_enhance, weight=0.1)
-    orientation_tracking = RewTerm (func=mdp.orientation_tracking, weight=-0.4)
-    object_moved = RewTerm( func= mdp.object_moving, weight = -0.3)
-    # enhance_grasp = RewTerm (func=mdp.enhance_grasp_joints_difference, weight= 10)
+    position_tracking = RewTerm (func=mdp.position_tracking, weight=-0.8)
+    position_enhance = RewTerm (func=mdp.position_enhance, weight=1.5)
+    # orientation_tracking = RewTerm (func=mdp.orientation_tracking, weight=-0.2)
+    # object_moved = RewTerm( func= mdp.object_moving, weight = -0.3)
+    # object_moved2 = RewTerm( func= mdp.object_moving2, weight = -0.3)
 
-    kkep_open_gripper = RewTerm(func = mdp.keep_gripper_open, weight =-1)
+    # # enhance_grasp = RewTerm (func=mdp.enhance_grasp_joints_difference, weight= 0.0001)
+    test5 = RewTerm(func = mdp.test_5, weight =0.5)
+    test6 = RewTerm(func = mdp.test_6, weight =-0.4)
 
-    contact_F0 = RewTerm(func=mdp.object_finger_contact,params={"J0_cfgs": SceneEntityCfg("F0_J0_jointbody"),"J1_cfgs": SceneEntityCfg("F0_J1_jointbody"),
-                                                                "J2_cfgs": SceneEntityCfg("F0_J2_jointbody"),"J3_cfgs": SceneEntityCfg("F0_J3_jointbody")
-                                                                }, weight = 2)
-    contact_F1 = RewTerm(func=mdp.object_finger_contact,params={"J0_cfgs": SceneEntityCfg("F1_J0_jointbody"),"J1_cfgs": SceneEntityCfg("F1_J1_jointbody"),
-                                                                "J2_cfgs": SceneEntityCfg("F1_J2_jointbody"),"J3_cfgs": SceneEntityCfg("F1_J3_jointbody")
-                                                                }, weight = 2)
-    contact_F2 = RewTerm(func=mdp.object_finger_contact,params={"J0_cfgs": SceneEntityCfg("F2_J0_jointbody"),"J1_cfgs": SceneEntityCfg("F2_J1_jointbody"),
-                                                                "J2_cfgs": SceneEntityCfg("F2_J2_jointbody"),"J3_cfgs": SceneEntityCfg("F2_J3_jointbody")
-                                                                }, weight = 2)
+    # kkep_open_gripper = RewTerm(func = mdp.keep_gripper_open, weight =-1)
+
+    # contact_F0 = RewTerm(func=mdp.object_finger_contact,params={"J0_cfgs": SceneEntityCfg("F0_J0_jointbody"),"J1_cfgs": SceneEntityCfg("F0_J1_jointbody"),
+    #                                                             "J2_cfgs": SceneEntityCfg("F0_J2_jointbody"),"J3_cfgs": SceneEntityCfg("F0_J3_jointbody")
+    #                                                             }, weight = 2)
+    # contact_F1 = RewTerm(func=mdp.object_finger_contact,params={"J0_cfgs": SceneEntityCfg("F1_J0_jointbody"),"J1_cfgs": SceneEntityCfg("F1_J1_jointbody"),
+    #                                                             "J2_cfgs": SceneEntityCfg("F1_J2_jointbody"),"J3_cfgs": SceneEntityCfg("F1_J3_jointbody")
+    #                                                             }, weight = 2)
+    # contact_F2 = RewTerm(func=mdp.object_finger_contact,params={"J0_cfgs": SceneEntityCfg("F2_J0_jointbody"),"J1_cfgs": SceneEntityCfg("F2_J1_jointbody"),
+    #                                                             "J2_cfgs": SceneEntityCfg("F2_J2_jointbody"),"J3_cfgs": SceneEntityCfg("F2_J3_jointbody")
+    #                                                             }, weight = 2)
     
-    all_contact = RewTerm(func= mdp.object_all_fingers_contact, weight = 20)
+    # all_contact = RewTerm(func= mdp.object_all_fingers_contact, weight = 20)
     # # action penalty
     # action_rate = RewTerm(func=mdp.action_rate_l2, weight=-0.0001)
     # joint_vel = RewTerm(
@@ -184,15 +189,15 @@ class RewardsCfg:
     #     params={"asset_cfg": SceneEntityCfg("robot")},
     # )
 
-    U_contact_F0 = RewTerm(func=mdp.undesired_object_finger_contact,params={"J0_cfgs": SceneEntityCfg("F0_J0_jointbody"),"J1_cfgs": SceneEntityCfg("F0_J1_jointbody"),
-                                                                "J2_cfgs": SceneEntityCfg("F0_J2_jointbody"),"J3_cfgs": SceneEntityCfg("F0_J3_jointbody")
-                                                                }, weight = -0.2)
-    U_contact_F1 = RewTerm(func=mdp.undesired_object_finger_contact,params={"J0_cfgs": SceneEntityCfg("F1_J0_jointbody"),"J1_cfgs": SceneEntityCfg("F1_J1_jointbody"),
-                                                                "J2_cfgs": SceneEntityCfg("F1_J2_jointbody"),"J3_cfgs": SceneEntityCfg("F1_J3_jointbody")
-                                                                }, weight = -0.2)
-    U_contact_F2 = RewTerm(func=mdp.undesired_object_finger_contact,params={"J0_cfgs": SceneEntityCfg("F2_J0_jointbody"),"J1_cfgs": SceneEntityCfg("F2_J1_jointbody"),
-                                                                "J2_cfgs": SceneEntityCfg("F2_J2_jointbody"),"J3_cfgs": SceneEntityCfg("F2_J3_jointbody")
-                                                                }, weight = -0.2)
+    # U_contact_F0 = RewTerm(func=mdp.undesired_object_finger_contact,params={"J0_cfgs": SceneEntityCfg("F0_J0_jointbody"),"J1_cfgs": SceneEntityCfg("F0_J1_jointbody"),
+    #                                                             "J2_cfgs": SceneEntityCfg("F0_J2_jointbody"),"J3_cfgs": SceneEntityCfg("F0_J3_jointbody")
+    #                                                             }, weight = -0.2)
+    # U_contact_F1 = RewTerm(func=mdp.undesired_object_finger_contact,params={"J0_cfgs": SceneEntityCfg("F1_J0_jointbody"),"J1_cfgs": SceneEntityCfg("F1_J1_jointbody"),
+    #                                                             "J2_cfgs": SceneEntityCfg("F1_J2_jointbody"),"J3_cfgs": SceneEntityCfg("F1_J3_jointbody")
+    #                                                             }, weight = -0.2)
+    # U_contact_F2 = RewTerm(func=mdp.undesired_object_finger_contact,params={"J0_cfgs": SceneEntityCfg("F2_J0_jointbody"),"J1_cfgs": SceneEntityCfg("F2_J1_jointbody"),
+    #                                                             "J2_cfgs": SceneEntityCfg("F2_J2_jointbody"),"J3_cfgs": SceneEntityCfg("F2_J3_jointbody")
+    #                                                             }, weight = -0.2)
 
 @configclass
 class TerminationsCfg:
@@ -200,9 +205,9 @@ class TerminationsCfg:
 
     # (1) Time out
     time_out = DoneTerm(func=mdp.time_out, time_out=True)
-
-
-
+    abnormal_robot_state_term = DoneTerm(func = mdp.abnormal_robot_state)
+    object_falling_from_the_table_term = DoneTerm(func = mdp.object_falling_from_the_table,params={"minimum_height": float(0.0)}) # 0.0 is the table's surface height
+    object_oriented_badly_term = DoneTerm(func = mdp.object_oriented_badly, params={"thr": float(0.3)} )
 @configclass
 class Iiwa14DexeeGraspEnvCfg(ManagerBasedRLEnvCfg):
     # Scene settings

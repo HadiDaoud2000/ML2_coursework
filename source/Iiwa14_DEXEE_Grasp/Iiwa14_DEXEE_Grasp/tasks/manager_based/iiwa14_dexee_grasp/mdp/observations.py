@@ -34,7 +34,7 @@ def quat_in_robot_frame(
     ee_frame_cfg: SceneEntityCfg = SceneEntityCfg("ee_frame"),
     object_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
 ) -> torch.Tensor:
-    
+     
     ee_frame: RigidObject = env.scene[ee_frame_cfg.name]
     ee_quat_b = ee_frame.data.target_quat_source[:, 0]
     ee_w = ee_frame.data.target_pos_w[..., 0, :]
@@ -54,13 +54,13 @@ def quat_in_robot_frame(
 # /home/casper-3/Iiwa14_DEXEE_Grasp/source/Iiwa14_DEXEE_Grasp/Data/mujoco-Black_Decker_CM2035B_12Cup_Thermal_Coffeemaker/coacd/coffeemaker.usd
 def get_grasp_config(env: ManagerBasedRLEnv,
                     ) -> torch.Tensor:
-    RELATIVE_PATH = "../../source/Iiwa14_DEXEE_Grasp/Data/sem-Camera-7bff4fd4dc53de7496dece3f86cb5dd5/coacd/sem-Camera-7bff4fd4dc53de7496dece3f86cb5dd5.npy"
+    RELATIVE_PATH = "../../source/Iiwa14_DEXEE_Grasp/Data/sem-Hammer-369593e48bdb2208419a349e9c699f76/coacd/sem-Hammer-369593e48bdb2208419a349e9c699f76.npy"
     ABSOLUTE_PATH = Path(RELATIVE_PATH).resolve().as_posix()
     data = np.load(
         ABSOLUTE_PATH, 
         allow_pickle=True
     )
-    grasp = data[8]    
+    grasp = data[19]    
     scale = grasp["scale"]
                       
     final_pose = grasp["qpos"]
@@ -92,13 +92,13 @@ def get_grasp_config(env: ManagerBasedRLEnv,
 
 def get_open_gripper_config(env: ManagerBasedRLEnv,
                     ) -> torch.Tensor:
-    RELATIVE_PATH = "../../source/Iiwa14_DEXEE_Grasp/Data/sem-Camera-7bff4fd4dc53de7496dece3f86cb5dd5/coacd/sem-Camera-7bff4fd4dc53de7496dece3f86cb5dd5.npy"
+    RELATIVE_PATH = "../../source/Iiwa14_DEXEE_Grasp/Data/sem-Hammer-369593e48bdb2208419a349e9c699f76/coacd/sem-Hammer-369593e48bdb2208419a349e9c699f76.npy"
     ABSOLUTE_PATH = Path(RELATIVE_PATH).resolve().as_posix()
     data = np.load(
         ABSOLUTE_PATH, 
         allow_pickle=True
     )
-    grasp = data[8]    
+    grasp = data[19]    
     scale = grasp["scale"]
                       
     final_pose = grasp["qpos"]
@@ -212,6 +212,7 @@ def desired_config_robot_frame(
     return EE_pose_RF0.to(env.device)
 
 
+
 initial_pose = None
 
 def initial_object_pose_robot_root_frame(
@@ -224,34 +225,130 @@ def initial_object_pose_robot_root_frame(
     global initial_pose
     
     # Initialize initial_pose if it's None
-    if initial_pose is None:
-        n = env.num_envs
-        # Initialize with default pose [0,0,0,1,0,0,0] for all environments
-        initial_pose = torch.tensor([0, 0, 0, 1, 0, 0, 0], device='cuda').repeat(n, 1)
-    
-    t = current_time_s(env)  
-    
+    # if initial_pose is None:
+    #     n = env.num_envs
+    #     # Initialize with default pose [0,0,0,1,0,0,0] for all environments
+    #     initial_pose = torch.tensor([0, 0, 0, 1, 0, 0, 0], device='cuda').repeat(n, 1)
+
+
     robot: RigidObject = env.scene[robot_cfg.name]
     object: RigidObject = env.scene[object_cfg.name]
     
     # Get object position in world frame
-    object_pos_w = object.data.root_pos_w[:, :3]
-    
+    object_pos_w = object.data.root_pos_w[:, :3].to(env.device)
+    object_quat_w = object.data.root_quat_w[:, :4].to(env.device)
+
     # Transform to robot's root frame
     object_pos_b, object_quat_b = subtract_frame_transforms(
         robot.data.root_pos_w, 
         robot.data.root_quat_w, 
-        object_pos_w
+        object_pos_w, object_quat_w, 
+        
     )
+    threshold = 1.5 * env.step_dt
+
+
+    # Initialize global storage
+    if initial_pose is None:
+        initial_pose = torch.zeros((env.num_envs, 7), device=env.device, dtype=object.data.root_pos_w.dtype)
+
+    t = current_time_s(env)  
     
     # Update initial_pose only in the first few timesteps
-    # Using env.step_dt as the threshold
-    if t[0] <= 1.5 * env.step_dt:
-        initial_pose = torch.cat([object_pos_b, object_quat_b], dim=-1)
-    
-    # print('in observation:', initial_pose)
+    env_ids = torch.nonzero(t <= threshold, as_tuple=True)[0].long()  # ensure LongTensor for indexing
+
+    if env_ids.numel() > 0:
+        initial_pose[env_ids, :] =torch.cat([object_pos_b[env_ids, :], object_quat_b[env_ids, :]], dim=-1).clone().detach().to(initial_pose.dtype)
+    # print('in observation initial object position is::', initial_pose)
     return initial_pose
+
+ 
+
 def current_time_s(env: ManagerBasedRLEnv) -> torch.Tensor:
     """The current time in the episode (in seconds)."""
     # print('current time is:',env.episode_length_buf.unsqueeze(1) * env.step_dt )
     return env.episode_length_buf.unsqueeze(1) * env.step_dt
+
+
+# Global storage for initial configuration
+initial_confff = None
+
+def initial_robot_configuration(
+    env: "ManagerBasedRLEnv",
+    robot_cfg: "SceneEntityCfg" = SceneEntityCfg("robot"),
+) -> torch.Tensor:
+    """
+    Returns the initial robot joint configuration for all environments.
+    Updates only once per environment at the very first timestep of each episode.
+    """
+    global initial_confff
+
+    asset = env.scene[robot_cfg.name]
+    n_envs = env.num_envs
+    t = current_time_s(env)  # shape: [num_envs]
+
+    # Initialize storage if not yet done
+    if initial_confff is None:
+        num_joints = asset.data.joint_pos.shape[1]
+        initial_confff = torch.zeros((n_envs, num_joints), device=asset.data.joint_pos.device, dtype=asset.data.joint_pos.dtype)
+
+    # Find environments whose time is below threshold (first timestep)
+    threshold = 1.5 * env.step_dt
+    env_ids = torch.nonzero(t <= threshold, as_tuple=True)[0].long()  # ensure LongTensor for indexing
+
+    if env_ids.numel() > 0:
+        # Update only these envs and clone/detach to freeze values
+        initial_confff[env_ids, :] = asset.data.joint_pos[env_ids, :].clone().detach().to(initial_confff.dtype)
+   
+    return initial_confff
+
+
+
+
+initial_EE_pose_RF = None
+
+def initial_EE_pose_robot_root_frame(
+    env: ManagerBasedRLEnv,
+    robot_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
+    object_cfg: SceneEntityCfg = SceneEntityCfg("object"),
+) -> torch.Tensor:
+    """The position of the object in the robot's root frame."""
+    
+    global initial_EE_pose_RF
+    robot: RigidObject = env.scene[robot_cfg.name]
+
+
+    position_RF = frame_in_robot_root_frame(env)
+    quat_RF = quat_in_robot_frame(env)
+
+    threshold = 1.5 * env.step_dt
+
+
+    # Initialize global storage
+    if initial_EE_pose_RF is None:
+        initial_EE_pose_RF = torch.zeros((env.num_envs, 7), device=env.device, dtype=robot.data.root_pos_w.dtype)
+
+    t = current_time_s(env)  
+    
+    # Update initial_pose only in the first few timesteps
+    env_ids = torch.nonzero(t <= threshold, as_tuple=True)[0].long()  # ensure LongTensor for indexing
+
+    if env_ids.numel() > 0:
+        initial_EE_pose_RF[env_ids, :] =torch.cat([position_RF[env_ids, :], quat_RF[env_ids, :]], dim=-1).clone().detach().to(initial_EE_pose_RF.dtype)
+    # print('in observation initial robot position is::', initial_EE_pose_RF)
+    return initial_EE_pose_RF
+
+
+def initial_distance(
+        env: ManagerBasedRLEnv,
+
+) -> torch.Tensor:
+
+    ggg = desired_config_robot_frame(env)[:,:3]
+    ee_pos_RF = initial_EE_pose_robot_root_frame(env)[:,:3]
+    object_ee_distance = torch.norm(ee_pos_RF - ggg, dim=1)/1
+    # print('intial distance is:' , object_ee_distance[:10].unsqueeze(-1))
+
+    return object_ee_distance
+
+
