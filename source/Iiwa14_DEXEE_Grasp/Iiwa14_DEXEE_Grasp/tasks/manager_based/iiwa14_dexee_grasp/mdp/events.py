@@ -190,3 +190,96 @@ def reset_root_state_from_terrain(
     # set into the physics simulation
     asset.write_root_pose_to_sim(torch.cat([positions, orientations], dim=-1), env_ids=env_ids)
     asset.write_root_velocity_to_sim(velocities, env_ids=env_ids)
+
+
+
+
+# def reset_manipulator_joints_by_scale(
+#     env: ManagerBasedEnv,
+#     env_ids: torch.Tensor,
+#     position_range: tuple[float, float],
+#     velocity_range: tuple[float, float],
+#     asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
+# ):
+#     """Reset the robot joints by scaling the default position and velocity by the given ranges.
+
+#     This function samples random values from the given ranges and scales the default joint positions and velocities
+#     by these values. The scaled values are then set into the physics simulation.
+#     """
+#     # extract the used quantities (to enable type-hinting)
+#     asset: Articulation = env.scene[asset_cfg.name]
+
+#     # cast env_ids to allow broadcasting
+#     if asset_cfg.joint_ids != slice(None):
+#         iter_env_ids = env_ids[:, None]
+#     else:
+#         iter_env_ids = env_ids
+#     print('hhhhhhhhhhhhhh',asset_cfg.joint_ids)
+
+#     # get default joint state
+#     joint_pos = asset.data.default_joint_pos[iter_env_ids, [asset_cfg.joint_ids]].clone()
+#     joint_vel = asset.data.default_joint_vel[iter_env_ids, asset_cfg.joint_ids].clone()
+
+#     # scale these values randomly
+#     joint_pos *= math_utils.sample_uniform(*position_range, joint_pos.shape, joint_pos.device)
+#     joint_vel *= math_utils.sample_uniform(*velocity_range, joint_vel.shape, joint_vel.device)
+
+#     # clamp joint pos to limits
+#     joint_pos_limits = asset.data.soft_joint_pos_limits[iter_env_ids, asset_cfg.joint_ids]
+#     joint_pos = joint_pos.clamp_(joint_pos_limits[..., 0], joint_pos_limits[..., 1])
+#     # clamp joint vel to limits
+#     joint_vel_limits = asset.data.soft_joint_vel_limits[iter_env_ids, asset_cfg.joint_ids]
+#     joint_vel = joint_vel.clamp_(-joint_vel_limits, joint_vel_limits)
+
+#     # set into the physics simulation
+#     asset.write_joint_state_to_sim(joint_pos, joint_vel, joint_ids=asset_cfg.joint_ids, env_ids=env_ids)
+
+def reset_manipulator_joints_by_scale(
+    env: ManagerBasedEnv,
+    env_ids: torch.Tensor,
+    position_range: tuple[float, float],
+    velocity_range: tuple[float, float],
+    asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
+):
+    """Reset the robot joints by scaling the default position and velocity by the given ranges.
+
+    This function samples random values from the given ranges and scales the default joint positions and velocities
+    by these values. The scaled values are then set into the physics simulation.
+    
+    Note: This function only affects the first 7 joints of the robot.
+    """
+    # extract the used quantities (to enable type-hinting)
+    asset: Articulation = env.scene[asset_cfg.name]
+    
+    # Get the total number of joints
+    num_joints = asset.num_joints
+    
+    # Get default joint state for ALL joints
+    joint_pos = asset.data.default_joint_pos[env_ids, :].clone()
+    joint_vel = asset.data.default_joint_vel[env_ids, :].clone()
+
+    # Create scaling factors - only scale first 7 joints, keep others at 1.0
+    scale_pos = torch.ones((len(env_ids), num_joints), device=joint_pos.device)
+    scale_vel = torch.ones((len(env_ids), num_joints), device=joint_vel.device)
+    
+    # Apply random scaling only to first 7 joints
+    pos_scale_samples = math_utils.sample_uniform(*position_range, (len(env_ids), 7), joint_pos.device)
+    vel_scale_samples = math_utils.sample_uniform(*velocity_range, (len(env_ids), 7), joint_vel.device)
+    
+    scale_pos[:, :7] = pos_scale_samples
+    scale_vel[:, :7] = vel_scale_samples
+
+    # Scale the joint positions and velocities
+    joint_pos *= scale_pos
+    joint_vel *= scale_vel
+
+    # clamp joint pos to limits
+    joint_pos_limits = asset.data.soft_joint_pos_limits[env_ids, :]
+    joint_pos = joint_pos.clamp_(joint_pos_limits[..., 0], joint_pos_limits[..., 1])
+    
+    # clamp joint vel to limits
+    joint_vel_limits = asset.data.soft_joint_vel_limits[env_ids, :]
+    joint_vel = joint_vel.clamp_(-joint_vel_limits, joint_vel_limits)
+
+    # set into the physics simulation (all joints)
+    asset.write_joint_state_to_sim(joint_pos, joint_vel, joint_ids=None, env_ids=env_ids)

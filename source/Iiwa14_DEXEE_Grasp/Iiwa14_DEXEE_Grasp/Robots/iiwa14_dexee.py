@@ -28,7 +28,7 @@ INIT_Q_IIWA = INIT_Q_IIWA.tolist()
 
 # RELATIVE_PATH2 = "../../source/Iiwa14_DEXEE_Grasp/Data/core-bowl-a593e8863200fdb0664b3b9b23ddfcbc/coacd/core-bowl-a593e8863200fdb0664b3b9b23ddfcbc.npy"
 # RELATIVE_PATH2 = "../../source/Iiwa14_DEXEE_Grasp/Data/ddg-gd_drill_poisson_000/coacd/ddg-gd_drill_poisson_000.npy"
-RELATIVE_PATH2 = "../../source/Iiwa14_DEXEE_Grasp/Data/sem-Camera-7bff4fd4dc53de7496dece3f86cb5dd5/coacd/sem-Camera-7bff4fd4dc53de7496dece3f86cb5dd5.npy"
+RELATIVE_PATH2 = "../../source/Iiwa14_DEXEE_Grasp/Data/ddg-gd_drill_poisson_000/coacd/ddg-gd_drill_poisson_000.npy"
 
 ABSOLUTE_PATH2 = Path(RELATIVE_PATH2).resolve().as_posix()
 
@@ -36,7 +36,7 @@ data = np.load(
     ABSOLUTE_PATH2, 
     allow_pickle=True
 )
-grasp = data[8]  
+grasp = data[12]  
 final_pose = grasp["qpos"]
 print(final_pose)
 IIWA14_DEXEE_CFG = ArticulationCfg(
@@ -81,19 +81,32 @@ IIWA14_DEXEE_CFG = ArticulationCfg(
 
 
 
-            "F0_J0":final_pose['F0_J0'],
-            "F0_J1":final_pose['F0_J1'],
-            "F0_J2":final_pose['F0_J2'],
-            "F0_J3":final_pose['F0_J3'],
-            "F1_J0":final_pose['F1_J0'],
-            "F1_J1":final_pose['F1_J1'],
-            "F1_J2":final_pose['F1_J2'],
-            "F1_J3":final_pose['F1_J3'],
-            "F2_J0":final_pose['F2_J0'],
-            "F2_J1":final_pose['F2_J1'],
-            "F2_J2":final_pose['F2_J2'],
-            "F2_J3":final_pose['F2_J3'],
+            # "F0_J0":final_pose['F0_J0'],
+            # "F0_J1":final_pose['F0_J1'],
+            # "F0_J2":final_pose['F0_J2'],
+            # "F0_J3":final_pose['F0_J3'],
+            # "F1_J0":final_pose['F1_J0'],
+            # "F1_J1":final_pose['F1_J1'],
+            # "F1_J2":final_pose['F1_J2'],
+            # "F1_J3":final_pose['F1_J3'],
+            # "F2_J0":final_pose['F2_J0'],
+            # "F2_J1":final_pose['F2_J1'],
+            # "F2_J2":final_pose['F2_J2'],
+            # "F2_J3":final_pose['F2_J3'],
 
+
+            "F0_J0":final_pose['F0_J0'],
+            "F0_J1":-1.394,
+            "F0_J2":0.0,
+            "F0_J3":0.0,
+            "F1_J0":final_pose['F1_J0'],
+            "F1_J1":-1.394,
+            "F1_J2":0.0,
+            "F1_J3":0.0,
+            "F2_J0":final_pose['F2_J0'],
+            "F2_J1":-1.394,
+            "F2_J2":0.0,
+            "F2_J3":0.0,
 
             # "F0_J0":0.199,
             # "F0_J1":-1.394,

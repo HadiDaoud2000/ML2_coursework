@@ -46,21 +46,18 @@ def quat_in_robot_frame(
     _, rot0 = subtract_frame_transforms(
            object_pos_w, object_quat_w, ee_w, ee_quat_b
     )
-    # print('quat in robot frame', rot0)
-    # rot=cfg.func(rot0, cfg)
+    
     return torch.tensor(rot0, dtype=torch.float32, device=env.device)
 
-# /home/casper-3/Iiwa14_DEXEE_Grasp/source/Iiwa14_DEXEE_Grasp/Data/mujoco-Black_Decker_CM2035B_12Cup_Thermal_Coffeemaker/coacd/mujoco-Black_Decker_CM2035B_12Cup_Thermal_Coffeemaker.npy
-# /home/casper-3/Iiwa14_DEXEE_Grasp/source/Iiwa14_DEXEE_Grasp/Data/mujoco-Black_Decker_CM2035B_12Cup_Thermal_Coffeemaker/coacd/coffeemaker.usd
 def get_grasp_config(env: ManagerBasedRLEnv,
                     ) -> torch.Tensor:
-    RELATIVE_PATH = "../../source/Iiwa14_DEXEE_Grasp/Data/sem-Hammer-369593e48bdb2208419a349e9c699f76/coacd/sem-Hammer-369593e48bdb2208419a349e9c699f76.npy"
+    RELATIVE_PATH = "../../source/Iiwa14_DEXEE_Grasp/Data/ddg-gd_drill_poisson_000/coacd/ddg-gd_drill_poisson_000.npy"
     ABSOLUTE_PATH = Path(RELATIVE_PATH).resolve().as_posix()
     data = np.load(
         ABSOLUTE_PATH, 
         allow_pickle=True
     )
-    grasp = data[19]    
+    grasp = data[12]    
     scale = grasp["scale"]
                       
     final_pose = grasp["qpos"]
@@ -90,15 +87,18 @@ def get_grasp_config(env: ManagerBasedRLEnv,
     return pose_tensor2
 
 
+def desired_hand_joints(env: ManagerBasedRLEnv,) -> torch.Tensor:
+    return get_grasp_config(env)[:,[7,8,9,10,11,12,13,14,15,16,17,18]]
+
 def get_open_gripper_config(env: ManagerBasedRLEnv,
                     ) -> torch.Tensor:
-    RELATIVE_PATH = "../../source/Iiwa14_DEXEE_Grasp/Data/sem-Hammer-369593e48bdb2208419a349e9c699f76/coacd/sem-Hammer-369593e48bdb2208419a349e9c699f76.npy"
+    RELATIVE_PATH = "../../source/Iiwa14_DEXEE_Grasp/Data/ddg-gd_drill_poisson_000/coacd/ddg-gd_drill_poisson_000.npy"
     ABSOLUTE_PATH = Path(RELATIVE_PATH).resolve().as_posix()
     data = np.load(
         ABSOLUTE_PATH, 
         allow_pickle=True
     )
-    grasp = data[19]    
+    grasp = data[12]    
     scale = grasp["scale"]
                       
     final_pose = grasp["qpos"]
@@ -112,9 +112,7 @@ def get_open_gripper_config(env: ManagerBasedRLEnv,
         final_pose['F0_J0'],
         final_pose["F1_J0"],
         final_pose["F2_J0"],
-        # final_pose['F0_J1'],
-        # final_pose["F1_J1"],
-        # final_pose["F2_J1"],
+
         -1.394,
         -1.394,
         -1.394,

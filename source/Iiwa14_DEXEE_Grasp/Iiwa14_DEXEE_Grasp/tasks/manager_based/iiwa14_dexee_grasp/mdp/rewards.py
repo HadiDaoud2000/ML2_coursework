@@ -45,8 +45,8 @@ def position_tracking(
     ee_pos_RF = frame_in_robot_root_frame(env)
     object_ee_distance = torch.norm(ee_pos_RF - ggg, dim=1)/1
     print('distance is:' , object_ee_distance[:10])
-
-    return (object_ee_distance )
+    is_contact = object_all_fingers_contact(env)
+    return (object_ee_distance )*(1-is_contact)
 
 
 def position_enhance(
@@ -74,8 +74,8 @@ def orientation_tracking(
     grasp_quat = desired_config_robot_frame(env)[:,3:7]
     diff = quat_error_magnitude(quat_RF, grasp_quat)/np.pi
     print('orientation  is:' , diff[:10])
-
-    return diff
+    is_contact = object_all_fingers_contact(env)
+    return diff*(1-is_contact)
 
 def test_4(
         env: ManagerBasedRLEnv,
@@ -139,7 +139,7 @@ def test_5(env: ManagerBasedRLEnv) -> torch.Tensor:
     # when d <= 0.02m → be fully grasp pose
 
 
-    d_start = 1
+    d_start = 0.25
     d_end = 0.02
     denom = (d_start - d_end)
     if isinstance(denom, tuple):
@@ -165,12 +165,13 @@ def test_5(env: ManagerBasedRLEnv) -> torch.Tensor:
 
     joint_err = torch.mean(joint_err0, dim=1)
     # Normalize ranges
-    reward = -joint_err   
+    reward = torch.exp(-5*joint_err ) 
 
     # Optional success bonus if really close
     # reward += (d < 0.015) * 2.0
     print('joint error is:', joint_err[:10] )
-    return reward
+    is_contact = object_all_fingers_contact(env)
+    return reward*(1-is_contact)
 
 
 
@@ -180,6 +181,7 @@ def test_6(env: ManagerBasedRLEnv) -> torch.Tensor:
     grasp_target_RF = desired_config_robot_frame(env)[:, :3]
     initial_d = initial_distance(env)
     initial_quat = initial_EE_pose_robot_root_frame(env)[:,3:7]
+    # print('initial quat is: ', initial_quat)
     quat_RF = quat_in_robot_frame(env)
     grasp_quat = desired_config_robot_frame(env)[:, 3:7]
     # print('initial d is kkkkk', initial_d)
@@ -193,9 +195,10 @@ def test_6(env: ManagerBasedRLEnv) -> torch.Tensor:
         # print('grasp quanterion is :', grasp_quat[i])
         # print('slerp wuanterion is :', orientation_trajectory[i])
     ori_err = quat_error_magnitude(quat_RF, orientation_trajectory) / np.pi  
-
+    reward = torch.exp(-5*ori_err)
     print('quat tracking error is:', ori_err [:10])
-    return ori_err
+    is_contact = object_all_fingers_contact(env)
+    return reward*(1-is_contact)
 
 
 
@@ -320,16 +323,16 @@ def object_finger_contact(
     threshold = 0.1
     # extract the used quantities (to enable type-hinting)
     sensor0 = env.scene.sensors[J0_cfgs.name]
-    f0 = torch.norm(sensor0.data.net_forces_w[:, :, ], dim=-1)
-    i0 = ( f0> threshold)
+    f0 = torch.norm(sensor0.data.force_matrix_w[:, :, ], dim=-1)
+    i0 = ( f0> threshold).squeeze(1)
     sensor1 = env.scene.sensors[J1_cfgs.name]
-    f1 = torch.norm(sensor1.data.net_forces_w[:, :, ], dim=-1)
-    i1 = (f1 > threshold)
+    f1 = torch.norm(sensor1.data.force_matrix_w[:, :, ], dim=-1)
+    i1 = (f1 > threshold).squeeze(1)
     sensor2 = env.scene.sensors[J2_cfgs.name]
-    f2 = torch.norm(sensor2.data.net_forces_w[:, :, ], dim=-1)
-    i2 = ( f2 > threshold) 
+    f2 = torch.norm(sensor2.data.force_matrix_w[:, :, ], dim=-1)
+    i2 = ( f2 > threshold).squeeze(1)
     sensor3 = env.scene.sensors[J3_cfgs.name]
-    i3 = (torch.norm(sensor3.data.net_forces_w[:, :, ], dim=-1) > threshold) *(torch.norm(sensor3.data.net_forces_w[:, :, ], dim=-1) <3000)
+    i3 = (torch.norm(sensor3.data.force_matrix_w[:, :, ], dim=-1) > threshold).squeeze(1)
     is_contact_finger = (i0+i1+i2+i3).squeeze(1)
 
     ggg = desired_config_robot_frame(env)[:,:3]
@@ -339,7 +342,11 @@ def object_finger_contact(
     quat_RF = quat_in_robot_frame(env)
     grasp_quat = desired_config_robot_frame(env)[:,3:7]
     diff = quat_error_magnitude(quat_RF, grasp_quat)/np.pi
-
+    # print('sensors data:' )
+    # print(torch.norm(sensor0.data.force_matrix_w[:, :, ], dim=-1))
+    # print(torch.norm(sensor1.data.force_matrix_w[:, :, ], dim=-1))
+    # print(torch.norm(sensor2.data.force_matrix_w[:, :, ], dim=-1))
+    # print(torch.norm(sensor3.data.force_matrix_w[:, :, ], dim=-1))
 
     return 1*(is_contact_finger)*(diff<0.03)*(object_ee_distance<0.04)
 
@@ -357,7 +364,7 @@ def object_all_fingers_contact(
                                     SceneEntityCfg("F1_J2_jointbody"), SceneEntityCfg("F1_J3_jointbody"))
     F2 = object_finger_contact(env, SceneEntityCfg("F2_J0_jointbody"), SceneEntityCfg("F2_J1_jointbody"),
                                     SceneEntityCfg("F2_J2_jointbody"), SceneEntityCfg("F2_J3_jointbody"))
-    print(' fingers contact :', 1*(F0*F1*F2))
+    print(' fingers contact :', (1*(F0*F1*F2))[:10])
     return 1*(F0*F1*F2)
 
 
@@ -387,8 +394,8 @@ def object_moving(
     # Expected position in robot's frame (adjust as needed)
     expected_pos = initial_object_pose_robot_root_frame(env)[:,:3]
     pos_diff = torch.norm(object_pos_b - expected_pos, dim=1)
-    
-    return pos_diff
+    is_contact = object_all_fingers_contact(env)
+    return pos_diff*(1-is_contact)
 
 
 def undesired_object_finger_contact(
@@ -453,5 +460,45 @@ def object_moving2(
     # print(' expected pos is:', expected_pos)
     pos_diff = quat_error_magnitude(object_pos_b, expected_pos)/np.pi
     print('move diff2:', pos_diff[:20])
+    is_contact = object_all_fingers_contact(env)
+    return pos_diff*(1-is_contact)
+
+
+
+def lifting(
+    env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
+) -> torch.Tensor:
     
-    return pos_diff
+    asset: Articulation = env.scene[asset_cfg.name]
+    # print(asset.data.joint_names)
+    ids=[0,1,2,3,4,5,6]
+    actual_joints_position = asset.data.joint_pos[:, ids]
+    is_contact = object_all_fingers_contact(env)
+    grasp_pos0= torch.tensor([ 0.3228,  0.0685, -0.3784, -1.0638, -0.1891,  1.1131,  0.2125]).to(env.device)
+
+    grasp_pos = grasp_pos0.repeat(env.num_envs, 1)
+
+    grasp_joints_position = grasp_pos[:, [0,1,2,3,4,5,6]]
+    b = 1-torch.mean(torch.abs(actual_joints_position-grasp_joints_position), dim=1)/np.pi
+
+    # ggg = desired_config_robot_frame(env)[:,:3]
+    # ee_pos_RF = frame_in_robot_root_frame(env)
+    # # print('ee_pos_RF is:', ee_pos_RF)
+    # object_ee_distance = torch.norm(ee_pos_RF - ggg, dim=1)/1
+
+ 
+    # quat_RF = quat_in_robot_frame(env)
+
+    # grasp_quat = desired_config_robot_frame(env)[:,3:7]
+    # diff = quat_error_magnitude(quat_RF, grasp_quat)/np.pi
+
+    # return b*(object_ee_distance>0.1) + b*(diff_rot>0.1) + 0.0001*(object_ee_distance<=0.1)*(diff_rot<=0.1)
+    # return torch.exp(-(b**0.5))
+    print('lifting:', b[:10])
+    return 100*b*is_contact
+
+def time_pen(env: ManagerBasedRLEnv) -> torch.Tensor:
+    # print('current time in seconds is:', env.episode_length_buf * env.step_dt)
+    return env.episode_length_buf* env.step_dt
+
+    
