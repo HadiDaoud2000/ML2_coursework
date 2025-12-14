@@ -21,4 +21,7 @@ Reward plots for the drill with randomized position in a rectangle of 30*40 cm, 
 <img width="700" height="213" alt="Screenshot from 2025-12-14 19-44-28" src="https://github.com/user-attachments/assets/7a85f862-9cf9-4331-be5e-694eb28f6eb7" /><img width="700" height="213" alt="Screenshot from 2025-12-14 19-39-31" src="https://github.com/user-attachments/assets/30286986-fa8a-4d41-abf8-295fd12bf923" />
 <img width="700" height="213" alt="Screenshot from 2025-12-14 19-39-06" src="https://github.com/user-attachments/assets/5d370a14-2522-40ba-a468-dfadbed27940" />
 
+/home/hadi/Downloads/Telegram Desktop/Screencast from 2025-12-13 17-36-25.webm
+
+
 
