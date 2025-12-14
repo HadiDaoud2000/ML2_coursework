@@ -69,4 +69,59 @@ python scripts/skrl/play.py --task Template-Iiwa14-Dexee-Grasp-v0 --num_envs 10 
 ```
 replace example.pt with the real checkpoint path.
 
-
+## Project structure: 
+├── .dockerignore
+├── .flake8
+├── .gitattributes
+├── .gitignore
+├── .pre-commit-config.yaml
+├── README.md
+├── scripts
+│   ├── list_envs.py
+│   └── skrl
+│       ├── logs
+│       │   └── skrl
+│       │       └── Iiwa_DEXEE_Grasp
+│       ├── outputs
+│       ├── play.py
+│       ├── random_agent.py
+│       ├── train.py
+│       └── zero_agent.py
+├── source
+│   └── Iiwa14_DEXEE_Grasp
+│       ├── config
+│       │   └── extension.toml
+│       ├── Data
+│       ├── docs
+│       │   └── CHANGELOG.rst
+│       ├── Iiwa14_DEXEE_Grasp
+│       │   ├── __init__.py
+│       │   ├── Robots
+│       │   ├── tasks
+│       │   │   ├── __init__.py
+│       │   │   └── manager_based
+│       │   │       ├── iiwa14_dexee_grasp
+│       │   │       │   ├── agents
+│       │   │       │   │   ├── __init__.py
+│       │   │       │   │   ├── skrl_amp_cfg.yaml
+│       │   │       │   │   └── skrl_ppo_cfg.yaml
+│       │   │       │   ├── iiwa14_dexee_grasp_env_cfg.py
+│       │   │       │   ├── __init__.py
+│       │   │       │   ├── joint_pos_env_cfg.py
+│       │   │       │   └── mdp
+│       │   │       │       ├── events.py
+│       │   │       │       ├── __init__.py
+│       │   │       │       ├── observations.py
+│       │   │       │       ├── rewards.py
+│       │   │       │       └── terminations.py
+│       │   │       └── __init__.py
+│       │   └── ui_extension_example.py
+│       ├── Iiwa14_DEXEE_Grasp.egg-info
+│       │   ├── dependency_links.txt
+│       │   ├── not-zip-safe
+│       │   ├── PKG-INFO
+│       │   ├── requires.txt
+│       │   ├── SOURCES.txt
+│       │   └── top_level.txt
+│       ├── pyproject.toml
+│       └── setup.py
