@@ -70,6 +70,7 @@ python scripts/skrl/play.py --task Template-Iiwa14-Dexee-Grasp-v0 --num_envs 10 
 replace example.pt with the real checkpoint path.
 
 ## Project structure: 
+```
 ├── .dockerignore
 ├── .flake8
 ├── .gitattributes
@@ -125,3 +126,4 @@ replace example.pt with the real checkpoint path.
 │       │   └── top_level.txt
 │       ├── pyproject.toml
 │       └── setup.py
+```
