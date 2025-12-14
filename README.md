@@ -1,6 +1,8 @@
 ## Student Hadi Daoud ISU: 408037
 ## Target-driven dexterous grasp using Shadow Dex-ee mounted on KUKA Iiwa14
 
+## Key concept:
+We're training a robot to grasp objects using a simple but powerful approach using vanilla model-free RL: instead of making it figure out grasping from cameras (which is complicated and noisy), we give it the exact answers upfront—the precise hand position, orientation, and finger arrangement needed for a good grip—and use reinforcement learning to teach it how to reach that perfect grasp configuration reliably and efficiently, using only its own joint sensors without any visual input. This can make grasping learning more generalized and efficient, and can be integrated with functional grasp configurations generator away from diffusion models or vision-based that requires huge datasets and resources.
 ## Training scheme: 
 <img width="409" height="315" alt="Screenshot from 2025-12-14 20-35-14" src="https://github.com/user-attachments/assets/70bf5133-8124-4497-a978-b5e6ef88eaf8" />
 
