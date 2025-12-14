@@ -10,6 +10,7 @@
 
 ## Results: 
 some photos from the environment with different objects:
+
 <img width="405" height="209" alt="image" src="https://github.com/user-attachments/assets/69e78002-f01e-40a0-a857-28deb9eea169" />
 
 
