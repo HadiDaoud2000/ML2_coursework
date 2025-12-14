@@ -55,4 +55,12 @@ cd ML2_coursework
 python -m pip install -e source/Iiwa14_DEXEE_Grasp/
 ```
 
+## Training 
+Run ' python scripts/skrl/train.py --task Template-Iiwa14-Dexee-Grasp-v0 --num_envs 1000 --headless'
+you can change number of environments if you want
+
+## Playing 
+Run ' python scripts/skrl/play.py --task Template-Iiwa14-Dexee-Grasp-v0 --num_envs 10 --checkpoints example.pt'
+replace example.pt with the real checkpoint path.
+
 
