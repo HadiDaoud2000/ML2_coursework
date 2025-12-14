@@ -11,12 +11,12 @@
 ## Results: 
 some photos from the environment with different objects:
 
-<img width="405" height="209" alt="image" src="https://github.com/user-attachments/assets/69e78002-f01e-40a0-a857-28deb9eea169" />
+<img width="700" height="213" alt="image" src="https://github.com/user-attachments/assets/69e78002-f01e-40a0-a857-28deb9eea169" />
 
 
 Reward plots for the drill with randomized position in a rectangle of 30*40 cm, and randomized initial joints positions for the manipulator:
 
-<img width="500" height="152" alt="Screenshot from 2025-12-14 19-52-58" src="https://github.com/user-attachments/assets/506279a5-bb8d-4ee8-b247-d2ce95a8ad85" />
+<img width="700" height="213" alt="Screenshot from 2025-12-14 19-52-58" src="https://github.com/user-attachments/assets/506279a5-bb8d-4ee8-b247-d2ce95a8ad85" />
 <img width="700" height="213" alt="Screenshot from 2025-12-14 19-46-46" src="https://github.com/user-attachments/assets/e495b87c-c01a-4c97-9cac-f7ddfeb8c0e9" />
 
 <img width="700" height="213" alt="Screenshot from 2025-12-14 19-45-12" src="https://github.com/user-attachments/assets/d936c3f9-544a-493f-9069-b62156e1e8ce" />
@@ -56,11 +56,15 @@ python -m pip install -e source/Iiwa14_DEXEE_Grasp/
 ```
 
 ## Training 
-Run ' python scripts/skrl/train.py --task Template-Iiwa14-Dexee-Grasp-v0 --num_envs 1000 --headless'
+```bash
+python scripts/skrl/train.py --task Template-Iiwa14-Dexee-Grasp-v0 --num_envs 1000 --headless
+```
 you can change number of environments if you want
 
 ## Playing 
-Run ' python scripts/skrl/play.py --task Template-Iiwa14-Dexee-Grasp-v0 --num_envs 10 --checkpoints example.pt'
+```bash
+python scripts/skrl/play.py --task Template-Iiwa14-Dexee-Grasp-v0 --num_envs 10 --checkpoints example.pt
+```
 replace example.pt with the real checkpoint path.
 
 
