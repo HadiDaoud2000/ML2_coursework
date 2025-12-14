@@ -28,11 +28,24 @@ Reward plots for the drill with randomized position in a rectangle of 30*40 cm, 
 ![demo](https://github.com/user-attachments/assets/fdc7ea4d-e8d6-4030-ab4a-94952748cd0c)
 
 ## Limitations: 
-# Lack of functional grasps.
-# Generalization.
-# Sim 2 real transfer.
+Lack of functional grasps.
+Generalization.
+Sim 2 real transfer.
 
 ## Future work:
-# Using Teacher-Student Training for Object Grasping with Only Initial Pose Knowledge
+Using Teacher-Student Training for Object Grasping with Only Initial Pose Knowledge. 
+Generalize with more objects with different scales.
+Usage of functional configurations generator.
+
+## Installation
+1- First install Isaaclab framework from the link: 
+https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/index.html
+2- make sure to activate the environment with IsaacLab.
+3- clone and build this repo 
+``` bash
+git clone https://github.com/HadiDaoud2000/ML2_coursework.git
+cd ML2_coursework
+python -m pip install -e source/Iiwa14_DEXEE_Grasp/
+```
 
 
