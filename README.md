@@ -15,6 +15,7 @@ some photos from the environment with different objects:
 
 
 Reward plots for the drill with randomized position in a rectangle of 30*40 cm, and randomized initial joints positions for the manipulator:
+
 <img width="500" height="152" alt="Screenshot from 2025-12-14 19-52-58" src="https://github.com/user-attachments/assets/506279a5-bb8d-4ee8-b247-d2ce95a8ad85" />
 <img width="700" height="213" alt="Screenshot from 2025-12-14 19-46-46" src="https://github.com/user-attachments/assets/e495b87c-c01a-4c97-9cac-f7ddfeb8c0e9" />
 
@@ -26,5 +27,12 @@ Reward plots for the drill with randomized position in a rectangle of 30*40 cm, 
 
 ![demo](https://github.com/user-attachments/assets/fdc7ea4d-e8d6-4030-ab4a-94952748cd0c)
 
+## Limitations: 
+# Lack of functional grasps.
+# Generalization.
+# Sim 2 real transfer.
+
+## Future work:
+# Using Teacher-Student Training for Object Grasping with Only Initial Pose Knowledge
 
 
